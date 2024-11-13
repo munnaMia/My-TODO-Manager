@@ -17,5 +17,14 @@ func main() {
 
 	switch command {
 	case "add":
+		fmt.Println("adding a task")
+	case "delete":
+		fmt.Println("deleting a task")
+	case "complete":
+		fmt.Println("completed a task")
+	case "list":
+		fmt.Println("printing tast pending/completed")
+	default:
+		fmt.Println("Unknown command: ", command)
 	}
 }
