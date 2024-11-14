@@ -26,7 +26,7 @@ func main() {
 
 		addCmd.Parse(os.Args[2:])
 
-		if *titleFlag == ""{
+		if *titleFlag == "" {
 			fmt.Println("Title is required. Usage: todo add -t <title> [-d <description>]")
 			return
 		}
@@ -34,7 +34,32 @@ func main() {
 		services.AddTask(*titleFlag, *descriptionFlag)
 
 	case "delete":
-		fmt.Println("deleting a task")
+		deleteCmd := flag.NewFlagSet("delete", flag.ExitOnError)
+		deleteByID := deleteCmd.Int("t", 0, "Delete a single task by ID")
+		deleteAll := deleteCmd.Bool("all", false, "Delete all tasks")
+		deleteCompleted := deleteCmd.Bool("c", false, "Delete all completed tasks")
+
+		deleteCmd.Parse(os.Args[2:])
+
+		// work on here handle multiple flags issue here...
+		// -
+		// -
+		// -
+		// -
+		// -
+		// -
+
+		// Execute based on flags
+		if *deleteAll {
+			services.DeleteAllTask()
+		} else if *deleteCompleted {
+			services.DeleteCompletedTask()
+		} else if *deleteByID != 0 {
+			services.DeleteTaskByID(*deleteByID)
+		} else {
+			fmt.Println("Please specify a flag: -t <id>, -all, or -c")
+		}
+
 	case "complete":
 		fmt.Println("completed a task")
 	case "list":
