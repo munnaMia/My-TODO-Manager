@@ -1,8 +1,11 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"os"
+
+	"github.com/munnaMia/My-TODO-Manager/services"
 )
 
 func main() {
@@ -17,7 +20,19 @@ func main() {
 
 	switch command {
 	case "add":
-		fmt.Println("adding a task")
+		addCmd := flag.NewFlagSet("add", flag.ExitOnError)
+		titleFlag := addCmd.String("t", "", "Title of the task")
+		descriptionFlag := addCmd.String("d", "No-Description", "Description of the task")
+
+		addCmd.Parse(os.Args[2:])
+
+		if *titleFlag == ""{
+			fmt.Println("Title is required. Usage: todo add -t <title> [-d <description>]")
+			return
+		}
+
+		services.AddTask(*titleFlag, *descriptionFlag)
+
 	case "delete":
 		fmt.Println("deleting a task")
 	case "complete":
