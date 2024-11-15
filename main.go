@@ -6,9 +6,12 @@ import (
 	"os"
 
 	"github.com/munnaMia/My-TODO-Manager/services"
+	"github.com/munnaMia/My-TODO-Manager/utils"
 )
 
 func main() {
+	utils.StorageFilesExist() // Checking storage files exists or not
+	
 	if len(os.Args) < 2 {
 		fmt.Println("Usages: todo <command> [arguments]")
 		return
