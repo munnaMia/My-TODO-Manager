@@ -26,3 +26,13 @@ func DeleteCompletedTask(){
 func CompletedTaskByID(id int){
 	fmt.Println("Completed task id:",id)
 }
+
+// Show all pending task list
+func ShowTaskList(){
+	fmt.Println("all task pending")
+}
+
+// Show all completed task list
+func ShowCompletedTaskList(){
+	fmt.Println("All completed pending last")
+}
