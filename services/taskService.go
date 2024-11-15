@@ -28,7 +28,7 @@ func CompletedTaskByID(id int){
 }
 
 // Show all pending task list
-func ShowTaskList(){
+func ShowPendingTaskList(){
 	fmt.Println("all task pending")
 }
 
