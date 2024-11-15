@@ -13,7 +13,7 @@ func main() {
 	// If no command provided from user just return.
 	if len(os.Args) < 2 {
 		fmt.Println("Usages: todo <command> [arguments]")
-		return
+		os.Exit(1)
 	}
 
 	command := os.Args[1] // taking the command (add, list, delete...)
@@ -35,19 +35,28 @@ func main() {
 
 	case "delete":
 		deleteCmd := flag.NewFlagSet("delete", flag.ExitOnError)
-		deleteByID := deleteCmd.Int("t", 0, "Delete a single task by ID")
+		deleteByID := deleteCmd.Int("t", -1, "Delete a single task by ID")
 		deleteAll := deleteCmd.Bool("all", false, "Delete all tasks")
 		deleteCompleted := deleteCmd.Bool("c", false, "Delete all completed tasks")
 
 		deleteCmd.Parse(os.Args[2:])
 
-		// work on here handle multiple flags issue here...
-		// -
-		// -
-		// -
-		// -
-		// -
-		// -
+		// Checking how many flag are passing on delete cmd
+		flagCounter := 0
+		if *deleteAll {
+			flagCounter++
+		}
+		if *deleteCompleted {
+			flagCounter++
+		}
+		if *deleteByID != 0 || *deleteByID == 0 {
+			flagCounter++
+		}
+
+		if flagCounter > 1 {
+			fmt.Println("Error: Only one of -all, -t <id>, or -c can be used at a time.")
+			os.Exit(1)
+		}
 
 		// Execute based on flags
 		if *deleteAll {
