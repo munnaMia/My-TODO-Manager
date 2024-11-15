@@ -21,3 +21,8 @@ func DeleteAllTask(){
 func DeleteCompletedTask(){
 	fmt.Println("Deleted all completed task")
 }
+
+// Completed task by ID
+func CompletedTaskByID(id int){
+	fmt.Println("Completed task id:",id)
+}
