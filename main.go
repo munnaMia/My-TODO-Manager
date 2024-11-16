@@ -4,14 +4,20 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"path/filepath"
 
 	"github.com/munnaMia/My-TODO-Manager/services"
 	"github.com/munnaMia/My-TODO-Manager/utils"
 )
 
+// Storage file paths...
+var pendingTaskPath = filepath.Join("data", "task.json")
+var completedTaskPath = filepath.Join("data", "completed.json")
+
 func main() {
-	utils.StorageFilesExist() // Checking storage files exists or not
-	
+	utils.StorageFilesExist(pendingTaskPath)   // Checking storage files exists or not
+	utils.StorageFilesExist(completedTaskPath) // Checking storage files exists or not
+
 	if len(os.Args) < 2 {
 		fmt.Println("Usages: todo <command> [arguments]")
 		return
@@ -27,12 +33,12 @@ func main() {
 
 		addCmd.Parse(os.Args[2:])
 
-		if *title == ""{
+		if *title == "" {
 			fmt.Println("Title is required. Usage: todo add -t <title> [-d <description>]")
 			return
 		}
 
-		services.AddTask(*title, *description)
+		services.AddTask(*title, *description, pendingTaskPath)
 
 	case "delete":
 		deleteCmd := flag.NewFlagSet("delete", flag.ExitOnError)
@@ -100,13 +106,13 @@ func main() {
 			fmt.Println("Error: Only one of -p, or -c can be used at a time.")
 			return
 		}
-		
+
 		// Execute based on flags
 		if *pendingTask {
 			services.ShowPendingTaskList()
-		}else if *completeTask {
+		} else if *completeTask {
 			services.ShowCompletedTaskList()
-		}else{
+		} else {
 			fmt.Println("Please specify a flag: -p or -c")
 			return
 		}

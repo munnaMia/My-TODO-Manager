@@ -6,14 +6,20 @@ import (
 )
 
 func FileCreate(filePath string) {
-	// checking the task file existing or not
-	if _, err := os.Stat(filePath); os.IsNotExist(err) {
-		file, err := os.Create(filePath) // create a file
-		if err != nil {
-			fmt.Printf("Failed to create file: %v\n", err)
-			return
-		}
+	file, err := os.Create(filePath) // create a file
+	if err != nil {
+		fmt.Printf("Failed to create file: %v\n", err)
+		return
+	}
 
-		defer file.Close() // closing the file
-	} 
+	defer file.Close() // closing the file
+}
+
+// Read a file data and return it in a string format
+func FileRead(filePath string) string {
+	// Work here to read a json file data and return it to a string format
+	//
+	//
+	//
+	return ""
 }

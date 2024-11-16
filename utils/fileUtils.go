@@ -1,15 +1,14 @@
 package utils
 
 import (
-	"path/filepath"
+	"os"
 
 	"github.com/munnaMia/My-TODO-Manager/services"
 )
 
-func StorageFilesExist() {
-	pendingTaskPath := filepath.Join("data", "task.json")
-	completedTaskPath := filepath.Join("data", "completed.json")
-
-	services.FileCreate(pendingTaskPath)
-	services.FileCreate(completedTaskPath)
+// Checking file exist or not if not exist then create one
+func StorageFilesExist(path string) {
+	if _, err := os.Stat(path); os.IsNotExist(err) {
+		services.FileCreate(path)
+	}
 }
