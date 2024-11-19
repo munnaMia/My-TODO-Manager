@@ -4,32 +4,35 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+
+	"github.com/munnaMia/My-TODO-Manager/model"
 )
 
 func FileCreate(filePath string) {
-	file, err := os.Create(filePath) // create a file
+	file, err := os.Create(filePath) 
 	if err != nil {
 		fmt.Printf("Failed to create file: %v\n", err)
 		return
 	}
 
-	defer file.Close() // closing the file
+	defer file.Close() 
 }
 
 // Read a file data and return it in a slice of map format
-func FileRead(filePath string) []map[string]interface{} {
+func FileRead(filePath string) []model.Task {
 	
-	var tasks []map[string]interface{}
+	var tasks []model.Task
 
 	fileData , err := os.Open(filePath)
 	if err != nil {
 		fmt.Println(err)
 		return nil
 	}
+	defer fileData.Close()
 
 	decoder := json.NewDecoder(fileData)
 	if err := decoder.Decode(&tasks); err != nil {
-		fmt.Println("Error decoding JSON : %v", err)
+		fmt.Printf("Error decoding JSON : %v", err)
 		return nil
 	}
 	
