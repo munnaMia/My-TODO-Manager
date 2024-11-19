@@ -8,13 +8,13 @@ import (
 func AddTask(title, description, taskFilePath string) {
 	// Starting working on adding task.
 	/*
-		1. fetch all the JSON data from the storage.
 		2. update the data
 		3. write to the storage
 	*/
 
-	pendingTasks := FileRead(taskFilePath) // All the pending task will be store here.
-	fmt.Println(pendingTasks)
+	// all pending task data 
+	pendingTasksData := FileRead(taskFilePath) // All the pending task will be store here.
+	
 }
 
 // Delete task by ID

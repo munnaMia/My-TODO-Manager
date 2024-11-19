@@ -1,6 +1,7 @@
 package services
 
 import (
+	"encoding/json"
 	"fmt"
 	"os"
 )
@@ -15,11 +16,22 @@ func FileCreate(filePath string) {
 	defer file.Close() // closing the file
 }
 
-// Read a file data and return it in a string format
-func FileRead(filePath string) string {
-	// Work here to read a json file data and return it to a string format
-	//
-	//
-	//
-	return ""
+// Read a file data and return it in a slice of map format
+func FileRead(filePath string) []map[string]interface{} {
+	
+	var tasks []map[string]interface{}
+
+	fileData , err := os.Open(filePath)
+	if err != nil {
+		fmt.Println(err)
+		return nil
+	}
+
+	decoder := json.NewDecoder(fileData)
+	if err := decoder.Decode(&tasks); err != nil {
+		fmt.Println("Error decoding JSON : %v", err)
+		return nil
+	}
+	
+	return tasks
 }
