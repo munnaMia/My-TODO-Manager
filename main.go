@@ -66,7 +66,7 @@ func main() {
 
 		// Execute based on flags
 		if *deleteAll {
-			services.DeleteAllTask()
+			services.DeleteAllTask(pendingTaskPath)
 		} else if *deleteCompleted {
 			services.DeleteCompletedTask(completedTaskPath)
 		} else if *deleteByID > 0 {

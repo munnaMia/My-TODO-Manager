@@ -39,9 +39,9 @@ func FileRead(filePath string) []model.Task {
 	return tasks
 }
 
-func RemoveAllData(filePath string){
+func RemoveAllData(filePath, typeOfTask string){
 	if err := os.WriteFile(filePath, []byte(""), 0644); err != nil{
 		fmt.Printf("Failed to Delete Tasks : %v", err)
 	}
-	fmt.Println("Successfully cleared tasks.")
+	fmt.Printf("Successfully cleared all %v tasks.",typeOfTask)
 }

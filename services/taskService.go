@@ -39,13 +39,13 @@ func DeleteTaskByID(ID int) {
 }
 
 // Delete all task
-func DeleteAllTask() {
-	fmt.Println("Deleted all task")
+func DeleteAllTask(filePath string) {
+	RemoveAllData(filePath, "pending")
 }
 
 // Delete all completed task
 func DeleteCompletedTask(filePath string) {
-	RemoveAllData(filePath)
+	RemoveAllData(filePath, "completed")
 }
 
 // Completed task by ID
