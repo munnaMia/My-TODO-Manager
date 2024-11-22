@@ -56,7 +56,7 @@ func main() {
 		if *deleteCompleted {
 			flagCounter++
 		}
-		if *deleteByID != 0 || *deleteByID == 0 {
+		if *deleteByID != 0  {
 			flagCounter++
 		}
 		if flagCounter > 1 {
@@ -68,7 +68,7 @@ func main() {
 		if *deleteAll {
 			services.DeleteAllTask()
 		} else if *deleteCompleted {
-			services.DeleteCompletedTask()
+			services.DeleteCompletedTask(completedTaskPath)
 		} else if *deleteByID > 0 {
 			services.DeleteTaskByID(*deleteByID)
 		} else {

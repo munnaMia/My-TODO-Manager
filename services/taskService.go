@@ -44,8 +44,8 @@ func DeleteAllTask() {
 }
 
 // Delete all completed task
-func DeleteCompletedTask() {
-	fmt.Println("Deleted all completed task")
+func DeleteCompletedTask(filePath string) {
+	RemoveAllData(filePath)
 }
 
 // Completed task by ID

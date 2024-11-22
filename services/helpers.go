@@ -38,3 +38,10 @@ func FileRead(filePath string) []model.Task {
 	
 	return tasks
 }
+
+func RemoveAllData(filePath string){
+	if err := os.WriteFile(filePath, []byte(""), 0644); err != nil{
+		fmt.Printf("Failed to Delete Tasks : %v", err)
+	}
+	fmt.Println("Successfully cleared tasks.")
+}
