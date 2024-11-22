@@ -38,12 +38,12 @@ func DeleteTaskByID(ID int) {
 	fmt.Println("Deleted ID: ", ID)
 }
 
-// Delete all task
+
 func DeleteAllTask(filePath string) {
 	RemoveAllData(filePath, "pending")
 }
 
-// Delete all completed task
+
 func DeleteCompletedTask(filePath string) {
 	RemoveAllData(filePath, "completed")
 }
@@ -53,12 +53,12 @@ func CompletedTaskByID(id int) {
 	fmt.Println("Completed task id:", id)
 }
 
-// Show all pending task list
-func ShowPendingTaskList() {
-	fmt.Println("all task pending")
+func ShowPendingTaskList(filePath string) {
+	taskData := FileRead(filePath)
+	PrintDATA(taskData)
 }
 
-// Show all completed task list
-func ShowCompletedTaskList() {
-	fmt.Println("All completed pending last")
+func ShowCompletedTaskList(filePath string) {
+	taskData := FileRead(filePath)
+	PrintDATA(taskData)
 }

@@ -109,9 +109,9 @@ func main() {
 
 		// Execute based on flags
 		if *pendingTask {
-			services.ShowPendingTaskList()
+			services.ShowPendingTaskList(pendingTaskPath)
 		} else if *completeTask {
-			services.ShowCompletedTaskList()
+			services.ShowCompletedTaskList(completedTaskPath)
 		} else {
 			fmt.Println("Please specify a flag: -p or -c")
 			return
