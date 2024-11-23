@@ -119,7 +119,6 @@ func SortIDs(tasks []model.Task) []model.Task {
 	return tasks
 }
 
-
-func StatusPrint(status string){
+func StatusPrint(status string) {
 	fmt.Printf("Task Successfully %v", status)
 }
