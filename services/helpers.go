@@ -59,7 +59,7 @@ func PrintDATA(tasks []model.Task) {
 	writer.Flush()
 }
 
-func PrintSingleTask(task model.Task){
+func PrintSingleTask(task model.Task) {
 	writer := tabwriter.NewWriter(os.Stdout, 0, 0, 2, ' ', 0)
 
 	fmt.Fprintln(writer, "ID\tCREATED\tTITLE\tDESCRIPTION\t")
@@ -70,7 +70,7 @@ func PrintSingleTask(task model.Task){
 	writer.Flush()
 }
 
-func WriteFile(filePath string, tasks []model.Task) {
+func WriteFile(filePath, taskState string, tasks []model.Task) {
 	file, err := os.Create(filePath)
 
 	if err != nil {
@@ -81,11 +81,11 @@ func WriteFile(filePath string, tasks []model.Task) {
 	defer file.Close()
 
 	encoder := json.NewEncoder(file)
-	encoder.SetIndent(""," ")
+	encoder.SetIndent("", " ")
 	if err := encoder.Encode(tasks); err != nil {
 		fmt.Println("Error encoding JSON:", err)
 		return
 	}
 
-	fmt.Println("Task added successfully!")
+	fmt.Printf("Task successfully %v!\n", taskState)
 }

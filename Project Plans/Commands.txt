@@ -1,4 +1,4 @@
-1. add -t "title" [-d "description"]  ------------=> to add task
+(DONE) 1. add -t "title" [-d "description"]  ------------=> to add task
 2. delete -id <id>  ------------------------------=> delete a single task
 (DONE) 3. delete -all  ----------------------------------=> delete all task
 (DONE) 4. delete -c  ------------------------------------=> delete all completed tasks

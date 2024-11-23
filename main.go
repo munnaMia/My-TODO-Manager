@@ -56,7 +56,7 @@ func main() {
 		if *deleteCompleted {
 			flagCounter++
 		}
-		if *deleteByID != 0  {
+		if *deleteByID != 0 {
 			flagCounter++
 		}
 		if flagCounter > 1 {
