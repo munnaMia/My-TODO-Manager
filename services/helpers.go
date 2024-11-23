@@ -89,3 +89,34 @@ func WriteFile(filePath, taskState string, tasks []model.Task) {
 
 	fmt.Printf("Task successfully %v!\n", taskState)
 }
+
+func StorageFilesExist(path string) {
+	if _, err := os.Stat(path); os.IsNotExist(err) {
+		FileCreate(path)
+	}
+}
+
+func SearchTask(ID int, tasks []model.Task) (int, error) {
+	for idx, task := range tasks {
+		if ID == task.ID {
+			return int(idx), nil
+		}
+	}
+	return 0, fmt.Errorf("this id %v doesn't exist", ID)
+}
+
+func DeleteTask(index int, tasks []model.Task) []model.Task {
+	deletedTask := tasks[index]
+	tasks = append(tasks[:index], tasks[index+1:]...)
+
+	PrintSingleTask(deletedTask)
+
+	return tasks
+}
+
+func SortIDs(tasks []model.Task) []model.Task {
+	for idx := range tasks {
+		tasks[idx].ID = idx + 1
+	}
+	return tasks
+}

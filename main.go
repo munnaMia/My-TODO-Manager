@@ -7,7 +7,6 @@ import (
 	"path/filepath"
 
 	"github.com/munnaMia/My-TODO-Manager/services"
-	"github.com/munnaMia/My-TODO-Manager/utils"
 )
 
 // Storage file paths...
@@ -15,8 +14,8 @@ var pendingTaskPath = filepath.Join("data", "task.json")
 var completedTaskPath = filepath.Join("data", "completed.json")
 
 func main() {
-	utils.StorageFilesExist(pendingTaskPath)   // Checking storage files exists or not
-	utils.StorageFilesExist(completedTaskPath) // Checking storage files exists or not
+	services.StorageFilesExist(pendingTaskPath)   // Checking storage files exists or not
+	services.StorageFilesExist(completedTaskPath) // Checking storage files exists or not
 
 	if len(os.Args) < 2 {
 		fmt.Println("Usages: todo <command> [arguments]")
@@ -60,7 +59,7 @@ func main() {
 			flagCounter++
 		}
 		if flagCounter > 1 {
-			fmt.Println("Error: Only one of -all, -t <id>, or -c can be used at a time.")
+			fmt.Println("Error: Only one of -all, -id <id>, or -c can be used at a time.")
 			return
 		}
 
@@ -70,9 +69,9 @@ func main() {
 		} else if *deleteCompleted {
 			services.DeleteCompletedTask(completedTaskPath)
 		} else if *deleteByID > 0 {
-			services.DeleteTaskByID(*deleteByID)
+			services.DeleteTaskByID(*deleteByID, pendingTaskPath)
 		} else {
-			fmt.Println("Please specify a flag: -t <id is greater then 0>, -all, or -c")
+			fmt.Println("Please specify a flag: -id <id is greater then 0>, -all, or -c")
 			return
 		}
 

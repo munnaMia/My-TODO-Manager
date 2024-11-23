@@ -29,8 +29,20 @@ func AddTask(title, description, taskFilePath string) {
 }
 
 // Delete task by ID
-func DeleteTaskByID(ID int) {
-	fmt.Println("Deleted ID: ", ID)
+func DeleteTaskByID(ID int, filePath string) {
+	pendingTasksData := FileRead(filePath)
+
+	taskIdx, err := SearchTask(ID, pendingTasksData)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	pendingTasksData = DeleteTask(taskIdx, pendingTasksData)
+	pendingTasksData = SortIDs(pendingTasksData)
+
+	WriteFile(filePath, "deleted", pendingTasksData)
+
 }
 
 func DeleteAllTask(filePath string) {
