@@ -11,8 +11,10 @@ import (
 func AddTask(title, description, taskFilePath string) {
 	pendingTasksData := FileRead(taskFilePath) // All the pending task will be store here.
 
+	taskSliceLength := len(pendingTasksData)
+
 	newTask := model.Task{
-		ID: len(pendingTasksData) + 1,
+		ID: taskSliceLength + 1,
 		Title: title,
 		Description: description,
 		Completed: false,
@@ -24,7 +26,7 @@ func AddTask(title, description, taskFilePath string) {
 
 	WriteFile(taskFilePath, pendingTasksData) // Update the file data.
 
-	PrintDATA(pendingTasksData) // Printing the test data
+	PrintSingleTask(pendingTasksData[taskSliceLength-1]) // Printing the test data
 }
 
 // Delete task by ID

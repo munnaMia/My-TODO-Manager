@@ -59,6 +59,17 @@ func PrintDATA(tasks []model.Task) {
 	writer.Flush()
 }
 
+func PrintSingleTask(task model.Task){
+	writer := tabwriter.NewWriter(os.Stdout, 0, 0, 2, ' ', 0)
+
+	fmt.Fprintln(writer, "ID\tCREATED\tTITLE\tDESCRIPTION\t")
+	fmt.Fprintln(writer, "----\t----\t----\t----\t")
+
+	fmt.Fprintf(writer, "%v\t%v\t%v\t%v\t \n", task.ID, task.Created.Format("02-01-2006"), task.Title, task.Description)
+
+	writer.Flush()
+}
+
 func WriteFile(filePath string, tasks []model.Task) {
 	file, err := os.Create(filePath)
 
