@@ -19,7 +19,6 @@ func FileCreate(filePath string) {
 	defer file.Close()
 }
 
-// Read a file data and return it in a slice of map format
 func FileRead(filePath string) []model.Task {
 
 	var tasks []model.Task
@@ -58,4 +57,24 @@ func PrintDATA(tasks []model.Task) {
 	}
 
 	writer.Flush()
+}
+
+func WriteFile(filePath string, tasks []model.Task) {
+	file, err := os.Create(filePath)
+
+	if err != nil {
+		fmt.Println("Error opening file for writing:", err)
+		return
+	}
+
+	defer file.Close()
+
+	encoder := json.NewEncoder(file)
+	encoder.SetIndent(""," ")
+	if err := encoder.Encode(tasks); err != nil {
+		fmt.Println("Error encoding JSON:", err)
+		return
+	}
+
+	fmt.Println("Task added successfully!")
 }

@@ -9,12 +9,6 @@ import (
 
 // Add a task
 func AddTask(title, description, taskFilePath string) {
-	// Starting working on adding task.
-	/*
-		
-		3. write to the storage
-	*/
-	// all pending task data 
 	pendingTasksData := FileRead(taskFilePath) // All the pending task will be store here.
 
 	newTask := model.Task{
@@ -28,9 +22,9 @@ func AddTask(title, description, taskFilePath string) {
 	// Update the task in array 
 	pendingTasksData = append(pendingTasksData, newTask)
 
-	for _, task := range pendingTasksData{
-		fmt.Println(task)
-	}
+	WriteFile(taskFilePath, pendingTasksData) // Update the file data.
+
+	PrintDATA(pendingTasksData) // Printing the test data
 }
 
 // Delete task by ID
