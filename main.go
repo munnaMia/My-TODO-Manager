@@ -18,7 +18,7 @@ func main() {
 	services.StorageFilesExist(completedTaskPath) // Checking storage files exists or not
 
 	if len(os.Args) < 2 {
-		fmt.Println("Usages: todo <command> [arguments]")
+		fmt.Println("Usages: todo <command> [arguments] OR type: help")
 		return
 	}
 
@@ -79,12 +79,14 @@ func main() {
 		completeCmd := flag.NewFlagSet("complete", flag.ExitOnError)
 		completeID := completeCmd.Int("id", 0, "Completed task ID")
 
-		if *completeID <= 0 {
-			fmt.Println("Error: Task ID can't be a negative number or zero")
+		completeCmd.Parse(os.Args[2:])
+
+		if *completeID > 0 {
+			services.CompletedTaskByID(*completeID, pendingTaskPath, completedTaskPath)
+		} else {
+			fmt.Println("Error: Task ID can't be a negative number, zero or empty")
 			return
 		}
-
-		services.CompletedTaskByID(*completeID)
 
 	case "list":
 		listCmd := flag.NewFlagSet("list", flag.ExitOnError)
@@ -115,6 +117,9 @@ func main() {
 			fmt.Println("Please specify a flag: -p or -c")
 			return
 		}
+
+	case "help":
+		services.DisplayHelp()
 
 	default:
 		fmt.Println("Unknown command: ", command)

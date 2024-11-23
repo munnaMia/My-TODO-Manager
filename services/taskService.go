@@ -23,12 +23,12 @@ func AddTask(title, description, taskFilePath string) {
 	// Update the task in array
 	pendingTasksData = append(pendingTasksData, newTask)
 
-	WriteFile(taskFilePath, "added", pendingTasksData) // Update the file data.
+	WriteFile(taskFilePath, pendingTasksData) // Update the file data.
 
 	PrintSingleTask(pendingTasksData[taskSliceLength]) // Printing the test data
+	StatusPrint("added")
 }
 
-// Delete task by ID
 func DeleteTaskByID(ID int, filePath string) {
 	pendingTasksData := FileRead(filePath)
 
@@ -38,10 +38,12 @@ func DeleteTaskByID(ID int, filePath string) {
 		return
 	}
 
-	pendingTasksData = DeleteTask(taskIdx, pendingTasksData)
-	pendingTasksData = SortIDs(pendingTasksData)
+	pendingTasksDatas, deletedTask := DeleteTask(taskIdx, pendingTasksData)
+	pendingTasksData = SortIDs(pendingTasksDatas)
 
-	WriteFile(filePath, "deleted", pendingTasksData)
+	PrintSingleTask(deletedTask)
+	WriteFile(filePath, pendingTasksData)
+	StatusPrint("deleted")
 
 }
 
@@ -54,8 +56,36 @@ func DeleteCompletedTask(filePath string) {
 }
 
 // Completed task by ID
-func CompletedTaskByID(id int) {
-	fmt.Println("Completed task id:", id)
+func CompletedTaskByID(ID int, pendingTaskPath, completedTaskPath string) {
+	pendingTaskFile := FileRead(pendingTaskPath)
+	completeTasksFile := FileRead(completedTaskPath)
+
+	// Searching the task exist or not
+	taskIdx, err := SearchTask(ID, pendingTaskFile)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	// task delete from pending task storage
+	updatedPendingTasks, completedTask := DeleteTask(taskIdx, pendingTaskFile)
+	pendingTaskFile = SortIDs(updatedPendingTasks)
+	WriteFile(pendingTaskPath, pendingTaskFile)
+
+	taskSliceLength := len(completeTasksFile)
+
+	completeNewTask := model.Task{
+		ID:          taskSliceLength + 1,
+		Title:       completedTask.Title,
+		Description: completedTask.Description,
+		Completed:   true,
+		Created:     completedTask.Created,
+	}
+
+	completeTasksFile = append(completeTasksFile, completeNewTask)
+	WriteFile(completedTaskPath, completeTasksFile)
+	PrintSingleTask(completedTask)
+	StatusPrint("completed")
 }
 
 func ShowPendingTaskList(filePath string) {
@@ -66,4 +96,45 @@ func ShowPendingTaskList(filePath string) {
 func ShowCompletedTaskList(filePath string) {
 	taskData := FileRead(filePath)
 	PrintDATA(taskData)
+}
+
+func DisplayHelp() {
+	helpMessage := `
+Task Manager Command Help:
+
+1. Add a Task
+   Usage: todo add -t "title" [-d "description"]
+   Description: Adds a new task.
+      -t: Specifies the task title (required).
+      -d: Specifies the task description (optional).
+
+2. Delete a Task
+   Usage: todo delete -id <id>
+   Description: Deletes a task by its ID.
+
+3. Delete All Tasks
+   Usage: todo delete -all
+   Description: Deletes all tasks.
+
+4. Delete All Completed Tasks
+   Usage: todo delete -c
+   Description: Deletes all tasks marked as completed.
+
+5. Complete a Task
+   Usage: todo complete -id <id>
+   Description: Marks a task as completed by its ID.
+
+6. List Pending Tasks
+   Usage: todo list -p
+   Description: Lists all pending tasks.
+
+7. List Completed Tasks
+   Usage: todo list -c
+   Description: Lists all completed tasks.
+
+8. Help
+   Usage: todo help
+   Description: Displays this help message.
+`
+	fmt.Println(helpMessage)
 }

@@ -32,7 +32,6 @@ func FileRead(filePath string) []model.Task {
 
 	decoder := json.NewDecoder(fileData)
 	if err := decoder.Decode(&tasks); err != nil {
-		fmt.Printf("Error decoding JSON : %v", err)
 		return nil
 	}
 
@@ -47,6 +46,9 @@ func RemoveAllData(filePath, typeOfTask string) {
 }
 
 func PrintDATA(tasks []model.Task) {
+	if len(tasks) == 0 {
+		return
+	}
 	writer := tabwriter.NewWriter(os.Stdout, 0, 0, 2, ' ', 0)
 
 	fmt.Fprintln(writer, "ID\tCREATED\tTITLE\tDESCRIPTION\t")
@@ -70,7 +72,7 @@ func PrintSingleTask(task model.Task) {
 	writer.Flush()
 }
 
-func WriteFile(filePath, taskState string, tasks []model.Task) {
+func WriteFile(filePath string, tasks []model.Task) {
 	file, err := os.Create(filePath)
 
 	if err != nil {
@@ -86,8 +88,6 @@ func WriteFile(filePath, taskState string, tasks []model.Task) {
 		fmt.Println("Error encoding JSON:", err)
 		return
 	}
-
-	fmt.Printf("Task successfully %v!\n", taskState)
 }
 
 func StorageFilesExist(path string) {
@@ -105,13 +105,11 @@ func SearchTask(ID int, tasks []model.Task) (int, error) {
 	return 0, fmt.Errorf("this id %v doesn't exist", ID)
 }
 
-func DeleteTask(index int, tasks []model.Task) []model.Task {
-	deletedTask := tasks[index]
+func DeleteTask(index int, tasks []model.Task) ([]model.Task, model.Task) {
+	selectedTask := tasks[index]
 	tasks = append(tasks[:index], tasks[index+1:]...)
 
-	PrintSingleTask(deletedTask)
-
-	return tasks
+	return tasks, selectedTask
 }
 
 func SortIDs(tasks []model.Task) []model.Task {
@@ -119,4 +117,9 @@ func SortIDs(tasks []model.Task) []model.Task {
 		tasks[idx].ID = idx + 1
 	}
 	return tasks
+}
+
+
+func StatusPrint(status string){
+	fmt.Printf("Task Successfully %v", status)
 }

@@ -1,7 +1,0 @@
-(DONE) 1. add -t "title" [-d "description"]  ------------=> to add task
-2. delete -id <id>  ------------------------------=> delete a single task
-(DONE) 3. delete -all  ----------------------------------=> delete all task
-(DONE) 4. delete -c  ------------------------------------=> delete all completed tasks
-5. complete -id <id>  ----------------------------=> mark a complete task
-(DONE) 6. list -p  --------------------------------------=> see all pending tasks
-(DONE) 7. list -c  --------------------------------------=> see all completed tasks
